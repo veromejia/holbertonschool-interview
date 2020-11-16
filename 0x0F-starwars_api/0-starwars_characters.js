@@ -1,25 +1,24 @@
 #!/usr/bin/node
 
 const request = require('request');
-const api_url = `https://swapi-api.hbtn.io/api/films/${process.argv[2]}/`;
-request(api_url, (error, response, body) => {
+const apiUrl = `https://swapi-api.hbtn.io/api/films/${process.argv[2]}/`;
+request(apiUrl, (error, response, body) => {
   if (error) {
     return;
   }
-  const request_response = JSON.parse(body);
+  const requestResponse = JSON.parse(body);
   const name = {};
-  request_response.characters.forEach(people_api => {
-    request(people_api, (error, response, body) => {
+  requestResponse.characters.forEach(peopleApi => {
+    request(peopleApi, (error, response, body) => {
       if (error) {
         return;
       }
       const people = JSON.parse(body);
       name[people.url] = people.name;
-      if (Object.keys(name).length === request_response.characters.length) {
-        request_response.characters.forEach(peopleUrl =>
+      if (Object.keys(name).length === requestResponse.characters.length) {
+        requestResponse.characters.forEach(peopleUrl =>
           console.log(name[peopleUrl]));
       }
     });
   });
 });
-
