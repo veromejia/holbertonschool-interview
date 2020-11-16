@@ -13,8 +13,13 @@ request(api_url, (error, response, body) => {
       if (error) {
         return;
       }
-      const character = JSON.parse(body);
-      console.log(character.name);
+      const people = JSON.parse(body);
+      name[people.url] = people.name;
+      if (Object.keys(name).length === request_response.characters.length) {
+        request_response.characters.forEach(peopleUrl =>
+          console.log(name[peopleUrl]));
+      }
     });
   });
 });
+
