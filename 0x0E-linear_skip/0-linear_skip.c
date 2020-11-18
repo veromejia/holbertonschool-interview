@@ -1,10 +1,9 @@
 #include "search.h"
 
 /**
- * print_checked - print the index checked in the list 
- * @low: list of values
- * @high: value to locate
- *
+ * print_checked - print the index checked in the list
+ * @idx: list of values
+ * @item: value to locate
  */
 void print_checked(int idx, int item)
 {
@@ -12,10 +11,9 @@ void print_checked(int idx, int item)
 }
 
 /**
- * print_found - print  if the value was found 
+ * print_found - print  if the value was found
  * @low: list of values
  * @high: value to locate
- *
  */
 void print_found(int low, int high)
 {
@@ -26,34 +24,33 @@ void print_found(int low, int high)
  * linear_skip - search for a value in a sorted list of integers
  * @list: list of values
  * @value: value to locate
- *
  * Return: If value is not present in the list, return NULL.
  * Otherwise, returh a pointer to the first node where value is located.
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
 	skiplist_t *last = list;
+
 	if (list)
 	{
-		list = express_line(list, last, value); 
+		list = express_line(list, last, value);
 		return (list);
 	}
 	return (NULL);
 }
 
 /**
- * express_line - search for a value in a sorted list of integers in the upper line (express line)
+ * express_line - search for a value in a sorted list of integers
  * @list: list of values
  * @last: right side of the express line
  * @value: value to locate
- *
  * Return: If value is not present in the list, return NULL.
  * Otherwise, returh a pointer to the first node where value is located.
  */
 skiplist_t *express_line(skiplist_t *list, skiplist_t *last, int value)
-{   
-	while( last->express && value > last->n )
- 	{
+{
+	while (last->express && value > last->n)
+	{
 		list = last;
 		last = last->express;
 		print_checked(last->index, last->n);
@@ -71,8 +68,8 @@ skiplist_t *express_line(skiplist_t *list, skiplist_t *last, int value)
 }
 
 /**
- * full_line - search for a value in a sorted list of integers in the lower line (full line)
- * @list: list of values
+ * full_line - search for a value in a sorted list of integers
+ * @list: list of value
  * @last: right side of the express line
  * @value: value to locate
  *
@@ -90,4 +87,3 @@ skiplist_t *full_line(skiplist_t *list, skiplist_t *last, int value)
 	}
 	return (NULL);
 }
-
