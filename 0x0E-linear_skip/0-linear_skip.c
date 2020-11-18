@@ -6,7 +6,6 @@
  * @high: value to locate
  *
  */
-
 void print_checked(int idx, int item)
 {
 	printf("Value checked at index [%i] = [%i]\n", (idx), (item));
