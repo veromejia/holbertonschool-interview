@@ -26,6 +26,8 @@ skiplist_t *create_skiplist(int *array, size_t size);
 void print_skiplist(const skiplist_t *list);
 void free_skiplist(skiplist_t *list);
 skiplist_t *linear_skip(skiplist_t *head, int value);
-skiplist_t *print_values(skiplist_t *list, int value);
-skiplist_t *skipping_values(skiplist_t *head, skiplist_t *tail, int value);
+void print_checked(int idx, int item);
+void print_found(int low, int high);
+skiplist_t *express_line(skiplist_t *list, skiplist_t *last, int value);
+skiplist_t *full_line(skiplist_t *list, skiplist_t *last, int value);
 #endif /* _SEARCH_H_ */

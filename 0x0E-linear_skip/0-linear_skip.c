@@ -1,60 +1,96 @@
 #include "search.h"
 
 /**
- * linear_skip - Search for a value in a sorted skip list of integers
- * @list: Pointer to the head of the skip list
- * @value: The value to search for
+ * print_checked - print the index checked in the list 
+ * @low: list of values
+ * @high: value to locate
  *
- * Return: Pointer to the first node where value is located
+ */
+
+void print_checked(int idx, int item)
+{
+	printf("Value checked at index [%i] = [%i]\n", (idx), (item));
+}
+
+/**
+ * print_found - print  if the value was found 
+ * @low: list of values
+ * @high: value to locate
+ *
+ */
+void print_found(int low, int high)
+{
+	printf("Value found between indexes [%i] and [%i]\n", (low), (high));
+}
+
+/**
+ * linear_skip - search for a value in a sorted list of integers
+ * @list: list of values
+ * @value: value to locate
+ *
+ * Return: If value is not present in the list, return NULL.
+ * Otherwise, returh a pointer to the first node where value is located.
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
-	skiplist_t *tail;
-    skiplist_t *fast_list = NULL;
+	skiplist_t *last = list;
 
-	if (!list)
-		return (NULL);
-
-	tail = print_values(list, value);
-
-	if (list->express)
-		tail = tail->express;
-	else
-		while (tail->next)
-			tail = tail->next;
-	printf("Value found between indexes [%d] and [%d]\n",
-		    (int) list->index, (int) tail->index);
-
-	fast_list = skipping_values(list, tail, value);
-    return (fast_list);
-}
-
-skiplist_t *print_values(skiplist_t *list, int value)
-{
-    while (list && list->express)
+	if (list)
 	{
-		printf("Value checked at index [%d] = [%d]\n",
-		       (int) list->express->index, list->express->n);
-		if (value > list->express->n)
-			list = list->express;
-		else
-			break;
-	}
-
-    return list;
-}
-
-skiplist_t *skipping_values(skiplist_t *head, skiplist_t *tail, int value)
-{
-    while (head->index <= tail->index)
-	{
-		printf("Value checked at index [%d] = [%d]\n",
-		       (int) head->index, head->n);
-		if (value == head->n)
-			return (head);
-		if (!head->next)
-			break;
-		head = head->next;
+		list = express_line(list, last, value); 
+        return list;
 	}
 	return (NULL);
 }
+
+/**
+ * express_line - search for a value in a sorted list of integers in the upper line (express line)
+ * @list: list of values
+ * @last: right side of the express line
+ * @value: value to locate
+ *
+ * Return: If value is not present in the list, return NULL.
+ * Otherwise, returh a pointer to the first node where value is located.
+ */
+skiplist_t *express_line(skiplist_t *list, skiplist_t *last, int value)
+{   
+    while( last->express && value > last->n )
+    {
+        list = last;
+        last = last->express;
+        print_checked(last->index, last->n);
+    }
+    if (value > last->n)
+	{
+			list = last;
+			while (last->next)
+				last = last->next;
+	}
+    print_found(list->index, last->index);
+    last = last->next;
+    list = full_line(list, last, value);
+    return (list);
+
+}
+
+/**
+ * full_line - search for a value in a sorted list of integers in the lower line (full line)
+ * @list: list of values
+ * @last: right side of the express line
+ * @value: value to locate
+ *
+ * Return: If value is not present in the list, return NULL.
+ * Otherwise, returh a pointer to the first node where value is located.
+ */
+skiplist_t *full_line(skiplist_t *list, skiplist_t *last, int value)
+{
+    while (list != last)
+	{
+	    print_checked(list->index, list->n);
+	    if (list->n == value)
+		    return (list);
+		list = list->next;
+	}
+    return (NULL);
+}
+
