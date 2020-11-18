@@ -33,11 +33,10 @@ void print_found(int low, int high)
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
 	skiplist_t *last = list;
-
 	if (list)
 	{
 		list = express_line(list, last, value); 
-        return list;
+		return (list);
 	}
 	return (NULL);
 }
@@ -53,23 +52,22 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
  */
 skiplist_t *express_line(skiplist_t *list, skiplist_t *last, int value)
 {   
-    while( last->express && value > last->n )
-    {
-        list = last;
-        last = last->express;
-        print_checked(last->index, last->n);
-    }
-    if (value > last->n)
-	{
-			list = last;
-			while (last->next)
-				last = last->next;
+	while( last->express && value > last->n )
+ 	{
+		list = last;
+		last = last->express;
+		print_checked(last->index, last->n);
 	}
-    print_found(list->index, last->index);
-    last = last->next;
-    list = full_line(list, last, value);
-    return (list);
-
+	if (value > last->n)
+	{
+		list = last;
+		while (last->next)
+			last = last->next;
+	}
+	print_found(list->index, last->index);
+	last = last->next;
+	list = full_line(list, last, value);
+	return (list);
 }
 
 /**
@@ -83,13 +81,13 @@ skiplist_t *express_line(skiplist_t *list, skiplist_t *last, int value)
  */
 skiplist_t *full_line(skiplist_t *list, skiplist_t *last, int value)
 {
-    while (list != last)
+	while (list != last)
 	{
-	    print_checked(list->index, list->n);
-	    if (list->n == value)
-		    return (list);
+		print_checked(list->index, list->n);
+		if (list->n == value)
+			return (list);
 		list = list->next;
 	}
-    return (NULL);
+	return (NULL);
 }
 
